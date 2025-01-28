@@ -62,7 +62,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-300">
       <div className="flex-1">
-        <Link to = "/feed" className="btn btn-ghost text-xl"><img src="src\img\nerdhive-logo-dark.svg" alt="NerdHive Logo" className="h-8" />NERDHIVE</Link>
+        <Link to = "/feed" className="btn btn-ghost text-xl">NERDHIVE</Link>
       </div>
       {userData && (
         <div className="flex-none gap-2">
