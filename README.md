@@ -1,4 +1,4 @@
-# DevConnect Frontend
+# NERDHIVE Frontend
 
 Welcome to the DevConnect Frontend project! This repository contains the source code for the frontend of the DevConnect application, a platform designed to connect developers and facilitate collaboration.
 Table of Contents
