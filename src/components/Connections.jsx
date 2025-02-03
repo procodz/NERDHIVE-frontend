@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/Connections";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { Link } from 'react-router-dom'
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections) || [];
@@ -29,16 +30,6 @@ const Connections = () => {
   useEffect(() => {
     fetchConnections();
   }, []);
-
-  const handleAccept = (connectionId) => {
-    // Implement accept logic
-    console.log("Accept connection:", connectionId);
-  };
-
-  const handleReject = (connectionId) => {
-    // Implement reject logic
-    console.log("Reject connection:", connectionId);
-  };
 
   if (isLoading) {
     return (
@@ -69,28 +60,39 @@ const Connections = () => {
         ) : (
           <div className="flex flex-col gap-4">
             {connections.map((connection) => (
-              <div 
-                key={connection._id || connection.userId || connection.id || Math.random().toString()}
+              <div
+                key={
+                  connection._id ||
+                  connection.userId ||
+                  connection.id ||
+                  Math.random().toString()
+                }
                 className="card lg:card-side bg-base-100 shadow-xl"
               >
                 <figure className="w-48 h-48">
                   <img
-                    src={connection.photoUrl || "https://via.placeholder.com/150"}
+                    src={
+                      connection.photoUrl || "https://via.placeholder.com/150"
+                    }
                     alt={connection.name || "Profile photo"}
                     className="w-full h-full object-cover"
                   />
                 </figure>
                 <div className="card-body">
-                  <h2 className="card-title text-xl">{connection.firstName + " " + connection.lastName || "Unknown User"}</h2>
-                  <p className="text-base-content/70">{connection.about || "No description available"}</p>
+                  <h2 className="card-title text-xl">
+                    {connection.firstName + " " + connection.lastName ||
+                      "Unknown User"}
+                  </h2>
+                  <p className="text-base-content/70">
+                    {connection.about || "No description available"}
+                  </p>
                   <div className="card-actions justify-end mt-4">
-                  
-                    <button 
+                    <button
                       className="btn btn-primary"
-                      onClick={() => handleAccept(connection._id || connection.userId || connection.id)}
                     >
                       View Profile
                     </button>
+                    <Link to ={"/chat/" + connection._id}><button className="btn btn-primary">Chat</button></Link>
                   </div>
                 </div>
               </div>

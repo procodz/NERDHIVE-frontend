@@ -12,6 +12,7 @@ import ProjectList from './components/projects/ProjectList'
 import ProjectDetail from './components/projects/ProjectDetail'
 import CreateProject from './components/projects/CreateProject'
 import ProtectedRoute from './components/ProtectedRoute'
+import Chat from './components/chat/Chat'
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
               <Route path="/projects" element={<ProtectedRoute><ProjectList/></ProtectedRoute>} />
               <Route path="/projects/new" element={<ProtectedRoute><CreateProject/></ProtectedRoute>} />
               <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetail/></ProtectedRoute>} />
+              <Route path="/chat/:targetUserId" element={<Chat/>} />
+
             </Route>
           </Routes>
         </BrowserRouter>
