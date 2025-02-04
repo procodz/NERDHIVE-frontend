@@ -31,7 +31,6 @@ function App() {
               <Route path="/projects/new" element={<ProtectedRoute><CreateProject/></ProtectedRoute>} />
               <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetail/></ProtectedRoute>} />
               <Route path="/chat/:targetUserId" element={<Chat/>} />
-
             </Route>
           </Routes>
         </BrowserRouter>
