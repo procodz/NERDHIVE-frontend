@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../../utils/socket";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { BASE_URL } from "../../utils/constants";
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -19,6 +21,23 @@ function Chat() {
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const fetchMessages = async () => {
+    try {
+      const chat = await axios.get(BASE_URL + "/chat/" + targetUserId, {withCredentials: true});
+      const formattedMessages = chat.data?.messages.map((msg) => ({ 
+        sender: msg.senderId._id, // Use the _id from the senderId object
+        text: msg.text,
+        timestamp: msg.createdAt // Use createdAt instead of timestamp
+      }));
+      setMessages(formattedMessages || []);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
+  useEffect(() => {
+    fetchMessages();
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
