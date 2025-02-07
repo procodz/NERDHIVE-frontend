@@ -1,6 +1,6 @@
 # NERDHIVE Frontend
 
-Welcome to the DevConnect Frontend project! This repository contains the source code for the frontend of the DevConnect application, a platform designed to connect developers and facilitate collaboration.
+Welcome to the NERDHIVE Frontend project! This repository contains the source code for the frontend of the DevConnect application, a platform designed to connect developers and facilitate collaboration.
 Table of Contents
 
 Features:
@@ -20,14 +20,14 @@ Bootstrap: For responsive design.
 ```
 
 Installation:
-To get started with the DevConnect frontend, follow these steps:
+To get started with the NERDHIVE frontend, follow these steps:
 Clone the repository:
 ```
 git clone https://github.com/procodz/DevConnect-frontend.git
 ```
 Navigate to the project directory:
 ```
-cd DevConnect-frontend
+cd NERDHIVE-frontend
 ```
 Install the required dependencies:
 ```
