@@ -17,6 +17,8 @@ function Chat() {
 
   const { targetUserId } = useParams();
 
+
+
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
