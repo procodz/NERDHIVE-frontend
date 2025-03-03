@@ -11,9 +11,8 @@ const PendingRequests = () => {
   const [error, setError] = React.useState(null);
   const reviewRequest = async (status, _id) => {
     try {
-
       // Implement your review logic here
-      const res = await axios.post(BASE_URL + "/request/review/" + status + "/" + _id, {}, {
+      await axios.post(BASE_URL + "/request/review/" + status + "/" + _id, {}, {
         withCredentials: true
       });
       dispatch(removeRequest(_id));
@@ -70,7 +69,7 @@ const PendingRequests = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="loading loading-spinner loading-lg"></div>
+        <div className="loading loading-spinner loading-sm text-accent"></div>
       </div>
     );
   }
@@ -78,60 +77,61 @@ const PendingRequests = () => {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="alert alert-error">
-          <span>{error}</span>
+        <div className="bg-red-400/10 border border-red-400 text-red-400 px-4 py-3 rounded-md text-sm">
+          {error}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-200">
-      <h1 className="text-3xl font-bold mb-8">Pending Requests</h1>
-      <div className="w-full max-w-4xl px-4">
-        {requests.length === 0 ? (
-          <div className="text-center p-8">
-            <p className="text-lg">No pending requests.</p>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-4">
-            {requests.map((request) => (
-              <div 
-                key={request._id}
-                className="card lg:card-side bg-base-100 shadow-xl"
-              >
-                <figure className="w-48 h-48">
-                  <img
-                    src={request.fromUserId.photoUrl} // Use actual photo URL when available
-                    alt={`${request.fromUserId.firstName} ${request.fromUserId.lastName}`}
-                    className="w-full h-full object-cover"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title text-xl">
-                    {`${request.fromUserId.firstName} ${request.fromUserId.lastName}`}
-                  </h2>
-                  <p className="text-base-content/70">Status: {request.status}</p>
-                  <div className="card-actions justify-end mt-4">
-                        <button 
-                          className="btn btn-error"
-                          onClick={() => reviewRequest("rejected", request._id) || handleReject(request._id)}
-                        >
-                          Reject
-                        </button>
-                        <button 
-                          className="btn btn-primary"
-                          onClick={() => reviewRequest("accepted", request._id) || handleAccept(request._id)}
-                        >
-                          Accept
-                        </button>
-                  </div>
+    <div className="py-8 px-4 min-h-[calc(100vh-10rem)]">
+      <h1 className="text-2xl font-bold mb-8 text-center">
+        <span className="text-gradient">Pending</span>
+        <span className="text-accent"> Requests</span>
+      </h1>
+      {requests.length === 0 ? (
+        <div className="text-center p-8 glass-effect rounded-lg max-w-md mx-auto">
+          <p className="text-base-content/70">No pending requests.</p>
+        </div>
+      ) : (
+        requests.map((request) => (
+          <div 
+            key={request._id}
+            className="glass-effect rounded-lg mb-6 mx-auto max-w-4xl overflow-hidden border border-base-300/30 hover:shadow-lg transition-all"
+          >
+            <div className="flex flex-col lg:flex-row">
+              <div className="w-full lg:w-48 h-48">
+                <img
+                  src={request.fromUserId.photoUrl} // Use actual photo URL when available
+                  alt={`${request.fromUserId.firstName} ${request.fromUserId.lastName}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6 flex-1">
+                <h2 className="text-xl font-semibold mb-2">
+                  {`${request.fromUserId.firstName} ${request.fromUserId.lastName}`}
+                </h2>
+                <p className="text-base-content/70 text-sm mb-4">Status: {request.status}</p>
+                <div className="flex justify-end gap-3 mt-4">
+                  <button 
+                    className="bg-transparent border border-red-400 text-red-400 hover:bg-red-400/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all"
+                    onClick={() => reviewRequest("rejected", request._id) || handleReject(request._id)}
+                  >
+                    Reject
+                  </button>
+                  <button 
+                    className="bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all"
+                    onClick={() => reviewRequest("accepted", request._id) || handleAccept(request._id)}
+                  >
+                    Accept
+                  </button>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
-        )}
-      </div>
+        ))
+      )}
     </div>
   );
 };
