@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -55,208 +54,236 @@ const Login = () => {
     try {
       await axios.post(BASE_URL + "/signup", 
         {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
           emailId: formData.emailId,
           password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName
         }
       );
-      setSuccessMessage("Signup successful! Please login with your credentials.");
-      setFormData({
-        emailId: "",
-        password: "",
-        firstName: "",
-        lastName: ""
-      });
+      setSuccessMessage("Account created successfully! Please login.");
       setIsLogin(true);
     } catch(err) {
-      setError("Signup failed. Please try again.");
+      setError("Error creating account");
       console.error(err);
     }
   }
 
   return (
-    <div className="h-screen relative overflow-hidden flex items-center justify-center bg-black">
-      {/* Animated Background */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
-        animate={{
-          background: [
-            "linear-gradient(to right, #1a1a1a, #2d2d2d, #1a1a1a)",
-            "linear-gradient(to right, #2d2d2d, #1a1a1a, #2d2d2d)",
-          ],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      />
+    <div className="flex flex-col md:flex-row h-full w-full min-h-[calc(100vh-10rem)] my-8">
+      {/* Left side - Form */}
+      <div className="w-full md:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold">
+              <span className="text-gradient">{isLogin ? "Welcome" : "Join"}</span>
+              <span className="text-accent"> {isLogin ? "Back" : "NerdHive"}</span>
+            </h2>
+            <p className="text-base-content/70 mt-3">
+              {isLogin 
+                ? "Sign in to continue to your account" 
+                : "Connect with developers and build amazing projects"}
+            </p>
+          </div>
 
-      {/* Animated NERDHIVE Logo */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0.1, 0.2, 0.1] }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      >
-        <svg
-          viewBox="0 0 200 200"
-          className="w-96 h-96 text-gray-700"
-        >
-          <motion.path
-            d="M100 20 L180 90 L100 160 L20 90 Z"
-            strokeWidth="2"
-            stroke="currentColor"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          <motion.text
-            x="50%"
-            y="50%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            className="text-2xl font-bold"
-            fill="currentColor"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-          >
-            NERDHIVE
-          </motion.text>
-        </svg>
-      </motion.div>
-
-      {/* Floating Particles */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-gray-600 rounded-full"
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-          }}
-          animate={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-          }}
-          transition={{
-            duration: 10 + Math.random() * 20,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        />
-      ))}
-
-      {/* Login Form */}
-      <div className="card bg-neutral bg-opacity-90 w-96 shadow-2xl z-10">
-        <form onSubmit={isLogin ? handleLogin : handleSignup} className="card-body">
-          <h2 className="card-title flex justify-center text-white">
-            {isLogin ? "Login" : "Sign Up"}
-          </h2>
-          {successMessage && <p className="text-green-400 text-center">{successMessage}</p>}
-          {!isLogin && (
-            <>
-              <div>
-                <label className="form-control w-full max-w-xs py-3">
-                  <div className="label">
-                    <span className="label-text text-white">First Name</span>
-                  </div>
-                  <input 
-                    type="text" 
-                    name="firstName"
-                    value={formData.firstName} 
-                    className="input input-bordered w-full max-w-xs bg-gray-800 text-white" 
-                    onChange={handleInputChange}
-                    required 
-                  />
-                </label>
-              </div>
-              <div>
-                <label className="form-control w-full max-w-xs py-3">
-                  <div className="label">
-                    <span className="label-text text-white">Last Name</span>
-                  </div>
-                  <input 
-                    type="text" 
-                    name="lastName"
-                    value={formData.lastName} 
-                    className="input input-bordered w-full max-w-xs bg-gray-800 text-white" 
-                    onChange={handleInputChange}
-                    required 
-                  />
-                </label>
-              </div>
-            </>
+          {error && (
+            <div className="bg-red-400/10 border border-red-400 text-red-400 px-4 py-3 rounded-md mb-6 text-sm">
+              {error}
+            </div>
           )}
-          <div>
-            <label className="form-control w-full max-w-xs py-3">
-              <div className="label">
-                <span className="label-text text-white">Email ID</span>
-              </div>
-              <input 
-                type="email" 
-                name="emailId"
-                value={formData.emailId} 
-                className="input input-bordered w-full max-w-xs bg-gray-800 text-white" 
-                onChange={handleInputChange}
-                required 
-              />
-            </label>
+
+          {successMessage && (
+            <div className="bg-green-400/10 border border-green-400 text-green-400 px-4 py-3 rounded-md mb-6 text-sm">
+              {successMessage}
+            </div>
+          )}
+
+          <div className="glass-effect p-6 rounded-xl">
+            {isLogin ? (
+              // Login Form
+              <form onSubmit={handleLogin} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-base-content/80 mb-2">Email</label>
+                  <input
+                    type="email"
+                    name="emailId"
+                    value={formData.emailId}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 rounded-md border border-base-300/50 bg-base-200/50 backdrop-blur-sm text-base-content focus:outline-none focus:border-accent"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-base-content/80 mb-2">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 rounded-md border border-base-300/50 bg-base-200/50 backdrop-blur-sm text-base-content focus:outline-none focus:border-accent"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-2 rounded-md text-sm font-normal transition-all mt-4"
+                >
+                  Sign In
+                </button>
+              </form>
+            ) : (
+              // Signup Form
+              <form onSubmit={handleSignup} className="space-y-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-base-content/80 mb-2">First Name</label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 rounded-md border border-base-300/50 bg-base-200/50 backdrop-blur-sm text-base-content focus:outline-none focus:border-accent"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-base-content/80 mb-2">Last Name</label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 rounded-md border border-base-300/50 bg-base-200/50 backdrop-blur-sm text-base-content focus:outline-none focus:border-accent"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-base-content/80 mb-2">Email</label>
+                  <input
+                    type="email"
+                    name="emailId"
+                    value={formData.emailId}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 rounded-md border border-base-300/50 bg-base-200/50 backdrop-blur-sm text-base-content focus:outline-none focus:border-accent"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-base-content/80 mb-2">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 rounded-md border border-base-300/50 bg-base-200/50 backdrop-blur-sm text-base-content focus:outline-none focus:border-accent"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-2 rounded-md text-sm font-normal transition-all mt-4"
+                >
+                  Create Account
+                </button>
+              </form>
+            )}
           </div>
-          <div>
-            <label className="form-control w-full max-w-xs py-3">
-              <div className="label">
-                <span className="label-text text-white">Password</span>
-              </div>
-              <input 
-                type="password" 
-                name="password"
-                value={formData.password} 
-                className="input input-bordered w-full max-w-xs bg-gray-800 text-white" 
-                onChange={handleInputChange}
-                required 
-              />
-            </label>
-          </div>
-          {error && <p className="text-red-500 text-center">{error}</p>}
-          <div className="card-actions justify-center py-4 flex-col items-center">
-            <button type="submit" className="btn btn-primary w-32">
-              {isLogin ? "Login" : "Sign Up"}
-            </button>
-            <button 
-              type="button" 
-              className="btn btn-link text-white"
-              onClick={() => {
-                setIsLogin(!isLogin);
-                setError("");
-                setSuccessMessage("");
-                setFormData({
-                  emailId: "",
-                  password: "",
-                  firstName: "",
-                  lastName: ""
-                });
-              }}
+
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-accent/80 text-sm hover:text-accent transition-colors"
             >
-              {isLogin ? "Need an account? Sign Up" : "Already have an account? Login"}
+              {isLogin ? "Need an account? Sign up" : "Already have an account? Sign in"}
             </button>
           </div>
-        </form>
+        </div>
+      </div>
+
+      {/* Right side - Illustration */}
+      <div className="hidden md:flex md:w-1/2 bg-base-200/30 items-center justify-center p-8 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+        
+        <div className="relative z-10 text-center max-w-md">
+          <div className="mb-8">
+            {/* Code editor mockup */}
+            <div className="w-full h-64 relative">
+              <div className="absolute inset-0 code-editor rounded-lg shadow-2xl overflow-hidden">
+                <div className="terminal-header p-2 bg-base-300 flex items-center">
+                  <div className="terminal-dot terminal-dot-red"></div>
+                  <div className="terminal-dot terminal-dot-yellow"></div>
+                  <div className="terminal-dot terminal-dot-green"></div>
+                  <div className="ml-4 text-xs text-base-content/70">{isLogin ? "login.js" : "signup.js"}</div>
+                </div>
+                <div className="p-4 font-mono text-sm overflow-hidden">
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">1</span>
+                    <span><span className="text-blue-400">import</span> <span className="text-green-400">{'{'} connect {'}'}</span> <span className="text-blue-400">from</span> <span className="text-orange-400">'nerdhive'</span>;</span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">2</span>
+                    <span></span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">3</span>
+                    <span><span className="text-purple-400">async</span> <span className="text-yellow-400">function</span> <span className="text-green-400">{isLogin ? "login" : "signup"}</span>() {'{'}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">4</span>
+                    <span>&nbsp;&nbsp;<span className="text-blue-400">const</span> user = <span className="text-blue-400">await</span> connect.<span className="text-yellow-400">{isLogin ? "login" : "createAccount"}</span>({'{'}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">5</span>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;email: <span className="text-orange-400">'{formData.emailId || "user@example.com"}'</span>,</span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">6</span>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;password: <span className="text-orange-400">'********'</span>,</span>
+                  </div>
+                  {!isLogin && (
+                    <>
+                      <div className="flex">
+                        <span className="code-line-numbers mr-4">7</span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;firstName: <span className="text-orange-400">'{formData.firstName || "John"}'</span>,</span>
+                      </div>
+                      <div className="flex">
+                        <span className="code-line-numbers mr-4">8</span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;lastName: <span className="text-orange-400">'{formData.lastName || "Doe"}'</span>,</span>
+                      </div>
+                    </>
+                  )}
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">{isLogin ? "7" : "9"}</span>
+                    <span>&nbsp;&nbsp;{'}'});</span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">{isLogin ? "8" : "10"}</span>
+                    <span></span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">{isLogin ? "9" : "11"}</span>
+                    <span>&nbsp;&nbsp;<span className="text-blue-400">return</span> user;</span>
+                  </div>
+                  <div className="flex">
+                    <span className="code-line-numbers mr-4">{isLogin ? "10" : "12"}</span>
+                    <span>{'}'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold mb-3">
+            <span className="text-gradient">{isLogin ? "Developer" : "Join Our"}</span>
+            <span className="text-accent"> {isLogin ? "Portal" : "Community"}</span>
+          </h3>
+          <p className="text-base-content/70 max-w-md">
+            {isLogin 
+              ? "Access your projects, connect with peers, and continue building amazing things."
+              : "Connect with fellow developers, collaborate on projects, and build your professional network."}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -167,7 +167,7 @@ function Chat() {
             />
             <button 
               type="submit" 
-              className="btn btn-primary"
+              className="bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all"
               disabled={!newMessage.trim()}
             >
               Send

@@ -54,26 +54,26 @@ const UserCard = ({ user }) => {
         <p>{user.about}</p>
 
         {/* Action Buttons */}
-        <div className="card-actions justify-center my-2 gap-2">
+        <div className="card-actions justify-center my-2 gap-3">
           <button
-            className="btn btn-danger bg-red-600"
+            className="bg-transparent border border-red-400 text-red-400 hover:bg-red-400/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all"
             onClick={() => handleSendRequest("ignored", userId)}
           >
             Ignore
           </button>
           <button
-            className="btn btn-success bg-green-600"
+            className="bg-transparent border border-green-400 text-green-400 hover:bg-green-400/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all"
             onClick={() => handleSendRequest("interested", userId)}
           >
             Interested
           </button>
           <button
-            className="btn btn-primary"
+            className="bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all"
             onClick={handleSeeProjects}
             disabled={loading}
           >
             {loading ? (
-              <span className="loading loading-spinner"></span>
+              <span className="loading loading-spinner loading-xs"></span>
             ) : (
               "See Projects"
             )}
