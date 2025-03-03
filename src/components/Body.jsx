@@ -40,7 +40,7 @@ const Body = () => {
   return (
     <div className="min-h-screen flex flex-col bg-base-100 text-base-content">
       {/* Only show Particles animation on the homepage with memoized component */}
-      {isHomePage && <MemoizedParticles density={30} speed={0.5} color="#1E90FF" opacity={0.15} />}
+      {isHomePage && <MemoizedParticles density={25} speed={0.5} color="#32CD32" opacity={0.2} />}
       
       {/* NavBar at the top */}
       <NavBar />

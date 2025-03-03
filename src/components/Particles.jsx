@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
+import PropTypes from 'prop-types';
 
 const Particles = ({ density = 50, speed = 1, color = '#1E90FF', opacity = 0.3 }) => {
   const canvasRef = useRef(null);
@@ -37,10 +38,10 @@ const Particles = ({ density = 50, speed = 1, color = '#1E90FF', opacity = 0.3 }
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 1.5 + 0.5, // Slightly smaller particles
+        size: Math.random() * 1.2 + 0.8, // Smaller particles for subtlety
         speedX: (Math.random() - 0.5) * speed * 0.8, // Reduce speed slightly
         speedY: (Math.random() - 0.5) * speed * 0.8,
-        opacity: Math.random() * opacity + 0.1,
+        opacity: Math.random() * opacity + 0.1, // Lower minimum opacity
       });
     }
     
@@ -89,9 +90,9 @@ const Particles = ({ density = 50, speed = 1, color = '#1E90FF', opacity = 0.3 }
       // Reduce animation complexity during scrolling
       const particles = particlesRef.current;
       const scrollingMode = isScrollingRef.current;
-      const connectionDistance = scrollingMode ? 60 : 80; // Reduce connection distance during scrolling
+      const connectionDistance = scrollingMode ? 80 : 100; // Reduce connection distance
       const skipFactor = scrollingMode ? 5 : 3; // Skip more particles during scrolling
-      const maxConnections = scrollingMode ? 2 : 3; // Fewer connections during scrolling
+      const maxConnections = scrollingMode ? 2 : 3; // Fewer connections for subtlety
       
       // Update and draw particles
       particles.forEach((particle, index) => {
@@ -181,12 +182,20 @@ const Particles = ({ density = 50, speed = 1, color = '#1E90FF', opacity = 0.3 }
         position: 'fixed', 
         top: 0, 
         left: 0, 
-        zIndex: -1,
+        zIndex: 0,
         pointerEvents: 'none', // Ensure the canvas doesn't interfere with scrolling
         willChange: 'transform' // Optimize for animations
       }}
     />
   );
+};
+
+// Add prop validation
+Particles.propTypes = {
+  density: PropTypes.number,
+  speed: PropTypes.number,
+  color: PropTypes.string,
+  opacity: PropTypes.number
 };
 
 export default Particles; 
