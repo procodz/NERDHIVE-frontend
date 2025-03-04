@@ -17,6 +17,7 @@ const ProjectDetail = lazy(() => import('./components/projects/ProjectDetail'))
 const CreateProject = lazy(() => import('./components/projects/CreateProject'))
 const Chat = lazy(() => import('./components/chat/Chat'))
 const HomePage = lazy(() => import('./components/HomePage'))
+const UserPublicProjects = lazy(() => import('./components/UserPublicProjects'))
 
 // Loading component for Suspense fallback
 const Loading = () => (
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/projects/new" element={<ProtectedRoute><CreateProject/></ProtectedRoute>} />
                 <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetail/></ProtectedRoute>} />
                 <Route path="/chat/:targetUserId" element={<Chat/>} />
+                <Route path="/user/:userId/projects" element={<UserPublicProjects />} />
               </Route>
             </Routes>
           </Suspense>

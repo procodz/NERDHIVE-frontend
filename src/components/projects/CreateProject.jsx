@@ -7,6 +7,7 @@ import { BASE_URL } from '../../utils/constants';
 const CreateProject = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -19,23 +20,42 @@ const CreateProject = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     try {
-      await axios.post(
+      // Validate GitHub link if provided
+      if (formData.githubLink && !formData.githubLink.match(/^https?:\/\/github\.com\/.*/)) {
+        setError("Please enter a valid GitHub URL (e.g., https://github.com/username/repo)");
+        return;
+      }
+
+      // Filter out empty tech stack items and ensure at least one technology
+      const techStack = formData.techStack.filter(tech => tech.trim() !== '');
+      if (techStack.length === 0) {
+        setError("Please enter at least one technology in the tech stack");
+        return;
+      }
+
+      const response = await axios.post(
         `${BASE_URL}/projects`,
         {
           ...formData,
-          techStack: formData.techStack.filter(tech => tech.trim() !== '')
+          techStack
         },
         { withCredentials: true }
       );
-      navigate('/projects');
+
+      if (response.data) {
+        navigate('/projects');
+      }
     } catch (error) {
       console.error('Error creating project:', error);
+      setError(error.response?.data?.error || "Failed to create project. Please try again.");
     }
   };
 
   const handleTechStackChange = (e) => {
-    const techs = e.target.value.split(',').map(tech => tech.trim());
+    const techs = e.target.value.split(',').map(tech => tech.trim()).filter(tech => tech !== '');
     setFormData({ ...formData, techStack: techs });
   };
 
@@ -46,6 +66,12 @@ const CreateProject = () => {
         <span className="text-accent"> New Project</span>
       </h1>
       
+      {error && (
+        <div className="alert alert-error mb-4">
+          <p>{error}</p>
+        </div>
+      )}
+
       <div className="glass-effect p-6 rounded-xl border border-base-300/30">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
