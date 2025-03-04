@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -79,30 +79,30 @@ const ProjectDetail = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center text-neutral">Loading...</div>;
+    return <div className="flex justify-center items-center text-accent/80">Loading...</div>;
   }
 
   if (!project) {
-    return <div className="p-4 text-neutral">Project not found</div>;
+    return <div className="p-4 text-accent/80">Project not found</div>;
   }
 
   return (
-    <div className="p-4">
+    <div className="py-8 px-4 min-h-[calc(100vh-10rem)]">
       <div className="mb-6">
-        <h1 className="text-5xl font-bold mb-2 text-base">{project.title}</h1>
-        <p className="text-neutral mb-4 text-white">{project.description}</p>
+        <h1 className="text-5xl font-bold mb-2 text-gradient">{project.title}</h1>
+        <p className="text-base-content/80 mb-4">{project.description}</p>
         <div className="flex space-x-4 mb-4">
-          <span className="text-sm bg-red-100 text-red-800 px-2 py-1 rounded text-neutral">
+          <span className="text-sm bg-red-100 text-red-800 px-2 py-1 rounded-full">
             Status: {project.status}
           </span>
-          <span className="text-sm bg-red-500 px-2 py-1 rounded text-neutral">
+          <span className="text-sm bg-red-500 text-white px-2 py-1 rounded-full">
             Visibility: {project.visibility}
           </span>
         </div>
       </div>
 
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4 text-base">Tasks</h2>
+        <h2 className="text-3xl font-semibold mb-4 text-gradient">Tasks</h2>
         <form onSubmit={handleAddTask} className="mb-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
@@ -110,7 +110,7 @@ const ProjectDetail = () => {
               placeholder="Task title"
               value={newTask.title}
               onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-              className="border rounded px-3 py-2 bg-base-200 text-base placeholder:text-neutral"
+              className="border border-accent/50 rounded-lg px-3 py-2 bg-base-200 text-base placeholder:text-neutral focus:outline-none focus:ring-2 focus:ring-accent"
               required
             />
             <input
@@ -118,12 +118,12 @@ const ProjectDetail = () => {
               placeholder="Description"
               value={newTask.description}
               onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-              className="border rounded px-3 py-2 bg-base-200 text-base placeholder:text-neutral"
+              className="border border-accent/50 rounded-lg px-3 py-2 bg-base-200 text-base placeholder:text-neutral focus:outline-none focus:ring-2 focus:ring-accent"
             />
             <select
               value={newTask.assignedTo}
               onChange={(e) => setNewTask({ ...newTask, assignedTo: e.target.value })}
-              className="border rounded px-3 py-2 bg-base-200 text-base"
+              className="border border-accent/50 rounded-lg px-3 py-2 bg-base-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="" className="text-neutral">Assign to...</option>
               {collaborators.map((collaborator) => (
@@ -136,11 +136,11 @@ const ProjectDetail = () => {
               type="date"
               value={newTask.dueDate}
               onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })}
-              className="border rounded px-3 py-2 bg-base-200 text-base"
+              className="border border-accent/50 rounded-lg px-3 py-2 bg-base-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
             />
             <button
               type="submit"
-              className="bg-primary text-primary-content px-4 py-2 rounded hover:bg-primary-focus"
+              className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent-focus transition-all"
             >
               Add Task
             </button>
@@ -149,18 +149,18 @@ const ProjectDetail = () => {
 
         <div className="space-y-4">
           {project.tasks.map((task) => (
-            <div key={task._id} className="border rounded-lg p-4 bg-base-200">
+            <div key={task._id} className="border border-accent/50 rounded-lg p-4 bg-base-200 shadow-md">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-semibold text-base">{task.title}</h3>
-                  <p className="text-neutral">{task.description}</p>
+                  <h3 className="font-semibold text-base-content/90">{task.title}</h3>
+                  <p className="text-base-content/70">{task.description}</p>
                   {task.assignedTo && (
-                    <p className="text-sm text-neutral">
+                    <p className="text-sm text-base-content/70">
                       Assigned to: {task.assignedTo.firstName} {task.assignedTo.lastName}
                     </p>
                   )}
                   {task.dueDate && (
-                    <p className="text-sm text-neutral">
+                    <p className="text-sm text-base-content/70">
                       Due: {new Date(task.dueDate).toLocaleDateString()}
                     </p>
                   )}
@@ -168,7 +168,7 @@ const ProjectDetail = () => {
                 <select
                   value={task.status}
                   onChange={(e) => handleTaskStatusChange(task._id, e.target.value)}
-                  className="border rounded px-2 py-1 bg-base-200 text-base"
+                  className="border border-accent/50 rounded-lg px-2 py-1 bg-base-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
                 >
                   <option value="pending" className="text-base">Pending</option>
                   <option value="in-progress" className="text-base">In Progress</option>
