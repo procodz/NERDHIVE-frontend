@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import ProjectCard from './ProjectCard';
+import { useSelector } from 'react-redux';
 
 const UserPublicProjects = () => {
   const { userId } = useParams();
@@ -18,21 +19,29 @@ const UserPublicProjects = () => {
         setError("");
         
         // Fetch projects and user data in parallel
-        const [projectsRes, userRes] = await Promise.all([
-          axios.get(`${BASE_URL}/projects/public/${userId}`, {
-            withCredentials: true
-          }),
-          axios.get(`${BASE_URL}/profile/view/${userId}`, {
-            withCredentials: true
-          })
-        ]);
+        // const [projectsRes, userRes] = await Promise.all([
+        //   axios.get(`${BASE_URL}/projects/public/${userId}`, {
+        //     withCredentials: true
+        //   }),
+        //   axios.get(`${BASE_URL}/profile/view/${userId}`, {
+        //     withCredentials: true
+        //   })
+        // ]);
+        const projectsRes = await axios.get(`${BASE_URL}/projects/public/${userId}`, {withCredentials: true});
+        const userDataRes = await axios.get(`${BASE_URL}/profile/view/${userId}`, {withCredentials: true});
+        const firstName = userDataRes.data.firstName;
+        const lastName = userDataRes.data.lastName;
+        setUserData(userDataRes.data);
+        console.log(firstName, lastName);
 
-        if (!userRes.data) {
-          throw new Error('User not found');
+        // console.log(projectsRes.data);
+
+        if (!projectsRes.data) {
+          throw new Error('Public project not found');
         }
 
         setProjects(projectsRes.data);
-        setUserData(userRes.data);
+        setUserData(projectsRes.data);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(
@@ -49,6 +58,8 @@ const UserPublicProjects = () => {
       fetchData();
     }
   }, [userId]);
+
+
 
   if (loading) {
     return (
