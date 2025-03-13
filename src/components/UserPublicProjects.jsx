@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
-import ProjectCard from './ProjectCard';
-import { useSelector } from 'react-redux';
 
 const UserPublicProjects = () => {
   const { userId } = useParams();
@@ -18,30 +16,19 @@ const UserPublicProjects = () => {
         setLoading(true);
         setError("");
         
-        // Fetch projects and user data in parallel
-        // const [projectsRes, userRes] = await Promise.all([
-        //   axios.get(`${BASE_URL}/projects/public/${userId}`, {
-        //     withCredentials: true
-        //   }),
-        //   axios.get(`${BASE_URL}/profile/view/${userId}`, {
-        //     withCredentials: true
-        //   })
-        // ]);
+        // Fetch projects and user data sequentially
         const projectsRes = await axios.get(`${BASE_URL}/projects/public/${userId}`, {withCredentials: true});
         const userDataRes = await axios.get(`${BASE_URL}/profile/view/${userId}`, {withCredentials: true});
-        const firstName = userDataRes.data.firstName;
-        const lastName = userDataRes.data.lastName;
-        setUserData(userDataRes.data);
-        console.log(firstName, lastName);
-
-        // console.log(projectsRes.data);
+        
+        console.log("User data:", userDataRes.data);
+        console.log("Projects:", projectsRes.data);
 
         if (!projectsRes.data) {
           throw new Error('Public project not found');
         }
 
         setProjects(projectsRes.data);
-        setUserData(projectsRes.data);
+        setUserData(userDataRes.data); // Set user data correctly - ensure this is the only place you set it
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(
@@ -58,8 +45,6 @@ const UserPublicProjects = () => {
       fetchData();
     }
   }, [userId]);
-
-
 
   if (loading) {
     return (
@@ -82,16 +67,43 @@ const UserPublicProjects = () => {
       {userData && (
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">
-            {userData.firstName} {userData.lastName}&apos;s Projects
+            {userData.firstName}'s Projects
           </h1>
-          <p className="text-base-content/70">{userData.about}</p>
+          {userData.about && <p className="text-base-content/70">{userData.about}</p>}
         </div>
       )}
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.length > 0 ? (
           projects.map((project) => (
-            <ProjectCard key={project._id} project={project} />
+            <div key={project._id} className="card bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title">{project.title}</h2>
+                <p>{project.description}</p>
+                
+                <div className="mt-4">
+                  <h3 className="font-medium mb-2">Tech Stack:</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {project.techStack.map((tech, index) => (
+                      <span key={index} className="badge badge-primary">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+                
+                {project.githubLink && (
+                  <div className="mt-4">
+                    <a 
+                      href={project.githubLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn btn-sm btn-outline"
+                    >
+                      GitHub Repository
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
           ))
         ) : (
           <p className="text-center col-span-full text-lg">
@@ -103,4 +115,4 @@ const UserPublicProjects = () => {
   );
 };
 
-export default UserPublicProjects; 
+export default UserPublicProjects;
