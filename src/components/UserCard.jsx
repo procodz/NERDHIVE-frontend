@@ -1,17 +1,15 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { removeUserFromFeed } from "../utils/feedslice";
 import PropTypes from 'prop-types';
 
 const UserCard = ({ user }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = user?._id;
-  const [projects, setProjects] = useState([]);
-  const [showProjects, setShowProjects] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   if (!user) return null;
 
@@ -28,21 +26,8 @@ const UserCard = ({ user }) => {
     }
   };
 
-  const handleSeeProjects = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await axios.get(`${BASE_URL}/user/${userId}/projects`, {
-        withCredentials: true,
-      });
-      setProjects(res.data.data);
-      setShowProjects(true);
-    } catch (error) {
-      setError("Failed to fetch projects. Please try again.");
-      console.error("Failed to fetch projects:", error);
-    } finally {
-      setLoading(false);
-    }
+  const handleSeeProjects = () => {
+    navigate(`/user/${userId}/projects`);
   };
 
   return (
@@ -72,42 +57,10 @@ const UserCard = ({ user }) => {
           <button
             className="bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-1.5 rounded-full text-sm font-medium transition-all"
             onClick={handleSeeProjects}
-            disabled={loading}
           >
-            {loading ? (
-              <span className="loading loading-spinner loading-xs"></span>
-            ) : (
-              "See Projects"
-            )}
+            See Projects
           </button>
         </div>
-
-        {/* Projects Section */}
-        {showProjects && (
-          <div className="mt-4">
-            <h3 className="text-lg font-bold mb-2 text-gradient">Public Projects</h3>
-            {projects.length > 0 ? (
-              projects.map((project) => (
-                <div key={project._id} className="mb-4 p-4 bg-base-200 rounded-lg shadow-md">
-                  <h4 className="font-semibold text-base-content/90">{project.title}</h4>
-                  <p className="text-sm text-base-content/70">{project.description}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {project.techStack.map((tech, index) => (
-                      <span key={index} className="badge badge-outline">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-base-content/70">No public projects found.</p>
-            )}
-          </div>
-        )}
-
-        {/* Error Message */}
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
     </div>
   );

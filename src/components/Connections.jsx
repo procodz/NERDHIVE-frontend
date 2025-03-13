@@ -90,7 +90,7 @@ const Connections = () => {
                 </p>
                 <div className="flex justify-end gap-3 mt-4">
                   <button className="bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all">
-                    View Profile
+                    View Projects
                   </button>
                   <Link to={"/chat/" + connection._id}>
                     <button className="bg-transparent border border-accent text-accent hover:bg-accent/10 px-4 py-1.5 rounded-md text-sm font-normal transition-all">
