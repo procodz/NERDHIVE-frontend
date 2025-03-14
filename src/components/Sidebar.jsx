@@ -31,7 +31,7 @@ const Sidebar = () => {
           {/* Sidebar Header */}
           <div className="px-6 py-4 border-b border-base-300">
             {/* <h2 className="text-xl font-bold text-gradient">NERD<span className="text-accent">HIVE</span></h2> */}
-            <p className="text-sm text-base-content/60 mt-1">Developer Hub</p>
+            <p className="text-sm text-base-content/60 mt-1 text-center text-gradient">Developer Hub</p>
           </div>
 
           {/* Navigation Menu */}
@@ -44,31 +44,31 @@ const Sidebar = () => {
                 <li>
                 <Link 
                     to="/feed" 
-                    className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
+                    className={`flex text-accent items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
                       ${isActiveRoute('/feed') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaUserFriends className="text-lg" />
+                    <FaUserFriends className="text-lg text-accent" />
                     Feed
                   </Link>
                   <Link 
                     to="/openSource" 
-                    className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
+                    className={`flex text-accent items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
                       ${isActiveRoute('/openSource') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaGithub className="text-lg" />
+                    <FaGithub className="text-lg text-accent" />
                     Open Source Projects
                   </Link>
                 </li>
                 <li>
                   <Link 
                     to="/inbox" 
-                    className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
+                    className={`flex text-accent items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
                       ${isActiveRoute('/inbox') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaEnvelope className="text-lg" />
+                    <FaEnvelope className="text-lg text-accent" />
                     Inbox
                   </Link>
                 </li>
@@ -83,22 +83,22 @@ const Sidebar = () => {
                 <li>
                   <Link 
                     to="/tech-news" 
-                    className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
+                    className={`flex text-accent items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
                       ${isActiveRoute('/tech-news') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaNewspaper className="text-lg" />
+                    <FaNewspaper className="text-lg text-accent" />
                     Tech News
                   </Link>
                 </li>
                 <li>
                   <Link 
                     to="/blogs" 
-                    className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
+                    className={`flex text-accent items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
                       ${isActiveRoute('/blogs') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaBlog className="text-lg" />
+                    <FaBlog className="text-lg text-accent" />
                     Blogs
                   </Link>
                 </li>
@@ -113,11 +113,11 @@ const Sidebar = () => {
                 <li>
                   <Link 
                     to="/profile" 
-                    className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
+                    className={`flex text-accent items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
                       ${isActiveRoute('/profile') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaCog className="text-lg" />
+                    <FaCog className="text-lg text-accent" />
                     Settings
                   </Link>
                 </li>
