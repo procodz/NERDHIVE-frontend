@@ -52,9 +52,9 @@ const Sidebar = () => {
                     Feed
                   </Link>
                   <Link 
-                    to="/projects" 
+                    to="/openSource" 
                     className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
-                      ${isActiveRoute('/projects') ? 'bg-primary/10 text-primary font-medium' : ''}`}
+                      ${isActiveRoute('/openSource') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
                     <FaGithub className="text-lg" />
@@ -63,13 +63,13 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <Link 
-                    to="/messages" 
+                    to="/inbox" 
                     className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
-                      ${isActiveRoute('/messages') ? 'bg-primary/10 text-primary font-medium' : ''}`}
+                      ${isActiveRoute('/inbox') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
                     <FaEnvelope className="text-lg" />
-                    Messages
+                    Inbox
                   </Link>
                 </li>
               </ul>
@@ -112,9 +112,9 @@ const Sidebar = () => {
               <ul className="menu menu-md gap-1 mt-2">
                 <li>
                   <Link 
-                    to="/settings" 
+                    to="/pofile" 
                     className={`flex items-center gap-3 px-4 py-2.5 hover:bg-base-300 transition-colors
-                      ${isActiveRoute('/settings') ? 'bg-primary/10 text-primary font-medium' : ''}`}
+                      ${isActiveRoute('/profile') ? 'bg-primary/10 text-primary font-medium' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
                     <FaCog className="text-lg" />

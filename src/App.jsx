@@ -18,6 +18,10 @@ const CreateProject = lazy(() => import('./components/projects/CreateProject'))
 const Chat = lazy(() => import('./components/chat/Chat'))
 const HomePage = lazy(() => import('./components/HomePage'))
 const UserPublicProjects = lazy(() => import('./components/UserPublicProjects'))
+const OpenSource = lazy(() => import('./components/OpenSource'))
+const Inbox = lazy(() => import('./components/Inbox'))
+const TechNews = lazy(() => import('./components/TechNews'))
+const Blog = lazy(() => import('./components/Blog'))
 // Loading component for Suspense fallback
 const Loading = () => (
   <div className="flex items-center justify-center h-screen">
@@ -45,6 +49,10 @@ function App() {
                 <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetail/></ProtectedRoute>} />
                 <Route path="/chat/:targetUserId" element={<Chat/>} />
                 <Route path="/user/:userId/projects" element={<UserPublicProjects />} />
+                <Route path="/openSource" element={<OpenSource/>} />
+                <Route path="/inbox" element={<Inbox/>} />
+                <Route path="/tech-news" element={<TechNews/>} />
+                <Route path="/blogs" element={<Blog/>} />
               </Route>
             </Routes>
           </Suspense>

@@ -104,9 +104,9 @@ const NavBar = () => {
               <>
                 <span className="text-accent/90 text-sm">Welcome, {userData.firstName}</span>
                 
-                <Link to="/feed" className="text-base-content/80 hover:text-accent text-sm transition-colors px-3 py-1">
+                {/* <Link to="/feed" className="text-base-content/80 hover:text-accent text-sm transition-colors px-3 py-1">
                   Feed
-                </Link>
+                </Link> */}
                 
                 <Link to="/projects" className="text-base-content/80 hover:text-accent text-sm transition-colors px-3 py-1">
                   Projects
