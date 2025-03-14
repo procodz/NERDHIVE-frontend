@@ -88,7 +88,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-base-200/90 backdrop-blur shadow-md' : 'bg-transparent'}`}>
+    <nav className="fixed top-0 left-0 right-0 bg-base-100 shadow-md z-[45]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}

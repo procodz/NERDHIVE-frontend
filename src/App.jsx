@@ -18,7 +18,6 @@ const CreateProject = lazy(() => import('./components/projects/CreateProject'))
 const Chat = lazy(() => import('./components/chat/Chat'))
 const HomePage = lazy(() => import('./components/HomePage'))
 const UserPublicProjects = lazy(() => import('./components/UserPublicProjects'))
-
 // Loading component for Suspense fallback
 const Loading = () => (
   <div className="flex items-center justify-center h-screen">

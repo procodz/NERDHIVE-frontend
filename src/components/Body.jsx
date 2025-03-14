@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import axios from 'axios';
 import Particles from './Particles';
+import Sidebar from './Sidebar';
 
 // Memoize the Particles component to prevent unnecessary re-renders
 const MemoizedParticles = memo(Particles);
@@ -38,20 +39,35 @@ const Body = () => {
   }, [userData, dispatch, navigate, isHomePage, location.pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-base-100 text-base-content">
-      {/* Only show Particles animation on the homepage with memoized component */}
+    <div className="min-h-screen bg-base-100 text-base-content relative">
       {isHomePage && <MemoizedParticles density={25} speed={0.5} color="#32CD32" opacity={0.2} />}
       
-      {/* NavBar at the top */}
-      <NavBar />
+      {/* Navbar with highest z-index */}
+      <div className="sticky top-0 z-50">
+        <NavBar />
+      </div>
 
-      {/* Main content area with padding for the fixed navbar */}
-      <main className="flex-grow pt-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <Outlet /> {/* This renders the nested routes */}
-      </main>
+      <div className="flex relative">
+        {/* Sidebar with higher z-index than main content */}
+        {userData && !isHomePage && (
+          <aside className="z-40">
+            <Sidebar />
+          </aside>
+        )}
+        
+        {/* Main content */}
+        <main className={`flex-grow min-h-screen px-4 sm:px-6 lg:px-8 relative z-30
+          ${userData && !isHomePage ? 'lg:ml-64' : ''}`}>
+          <div className="pt-16">
+            <Outlet />
+          </div>
+        </main>
+      </div>
 
-      {/* Footer at the bottom */}
-      <Footer />
+      {/* Footer with appropriate z-index */}
+      <div className="relative z-40">
+        <Footer />
+      </div>
     </div>
   );
 };
